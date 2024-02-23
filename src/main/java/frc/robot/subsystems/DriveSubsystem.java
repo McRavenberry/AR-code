@@ -14,9 +14,14 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -39,6 +44,9 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightDrivingCanId,
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
+
+    private SimSwerveModule[] modules;
+
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS();
@@ -65,7 +73,29 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-  }
+    AutoBuilder.configureHolonomic(
+      this::getPose,
+      this::resetPose,
+      this:getRobotRelativeSpeeds,
+      this:driveRobotRelative,
+      new HolonomicPathFollowerConfig(
+        new PIDConstants(5.0,0.0,0.0),
+        new PIDConstants(5.0,0.0,0.0),
+        4.5,
+        0.4,
+        new ReplanningConfig()
+      ),
+      () -> {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      },
+      this
+      );
+    }
+
 
   @Override
   public void periodic() {
@@ -88,6 +118,19 @@ public class DriveSubsystem extends SubsystemBase {
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
+
+  public void resetPose(Pose2d pose) {
+    m_odometry.resetPosition(m_gyro.getRotation2d(), getPositions(), pose);
+  }
+
+  private SwerveModulePosition[] getPositions() {
+    
+    // SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
+    // for (int i = 0; i < modules.length; i++) {
+    //   positions[i] = modules[i].getPosition();
+    // }
+  }
+
 
   /**
    * Resets the odometry to the specified pose.
