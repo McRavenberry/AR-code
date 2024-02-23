@@ -22,6 +22,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.runAmpArm;
+import frc.robot.commands.runAmpWheel;
 import frc.robot.commands.runIntake;
 import frc.robot.subsystems.AmperSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -54,8 +55,9 @@ public class RobotContainer {
   Joystick m_OperatorJoystick = new Joystick(OIConstants.kOperatorControlPort);
 
   Command runIntake = new runIntake(m_IntakeSubsystem, 10);
-  Command runAmpArm = new runAmpArm(m_AmperSubsystem, m_shooter, false);
-  Command runAmpArmProtect = new runAmpArm(m_AmperSubsystem, m_shooter, true);
+  Command runAmpArm = new runAmpArm(m_AmperSubsystem, m_shooter, m_IntakeSubsystem, false);
+  Command runAmpArmProtect = new runAmpArm(m_AmperSubsystem, m_shooter, m_IntakeSubsystem, true);
+  Command runAmpWheel = new runAmpWheel(m_AmperSubsystem, m_shooter, m_IntakeSubsystem);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -98,12 +100,15 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
     
-    //Shoot into SPEAKER with Right Trigger on Joystick 
+    //Intake on Right Trigger on Joystick 
     new JoystickButton(m_OperatorJoystick, 7).onTrue(new InstantCommand(() -> m_IntakeSubsystem.setArm(10)));
+    
 
     //Shoot into AMP with left trigger on Joystick 
     m_OperatorController.button(6).onTrue(runAmpArm);
     m_OperatorController.button(5).onTrue(runAmpArmProtect);
+    m_OperatorController.button(4).onTrue(runAmpWheel);
+
     //Pick up note off ground (Intake)
     m_OperatorController.button(7).whileTrue(runIntake);
     

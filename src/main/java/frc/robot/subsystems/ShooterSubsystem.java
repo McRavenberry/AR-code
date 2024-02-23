@@ -24,7 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     rightShooterMotor =
         new CANSparkMax(Constants.ShooterConstants.rightShooterMotorId, CANSparkLowLevel.MotorType.kBrushless);
-    rightShooterMotor.setInverted(false);
+    rightShooterMotor.setInverted(true);
     rightShooterMotor.setSmartCurrentLimit(50);
     rightShooterMotor.setIdleMode(IdleMode.kBrake);
 
@@ -33,14 +33,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
     leftShooterMotor.follow(rightShooterMotor, true);
 
-
   }
 
   public void setSpeedShoot(){
     leftShooterMotor.set(.9);
   }
   public void setSpeedAmp(){
-    leftShooterMotor.set(.9);
+    leftShooterMotor.set(.2);
   }
   public void setSpeedAmpEnd(){
     leftShooterMotor.stopMotor();
