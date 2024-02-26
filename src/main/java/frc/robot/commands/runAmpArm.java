@@ -38,7 +38,7 @@ public class runAmpArm extends Command {
     if(protect){
       s_Amper.setArm(0);
       s_Amper.setSpeed(0.0);
-      s_Shooter.setSpeedAmpEnd();
+      s_Shooter.stopShooter();
       s_Intake.setMotor(0.0);
     }
     else{
@@ -46,7 +46,7 @@ public class runAmpArm extends Command {
     }
     
 
-    System.out.println("RUN AMP");
+    System.out.println("RUN AMP ARM OUT");
 
   }
 

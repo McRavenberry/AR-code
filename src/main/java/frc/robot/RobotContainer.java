@@ -25,13 +25,16 @@ import frc.robot.commands.runAmpArm;
 import frc.robot.commands.runAmpWheel;
 import frc.robot.commands.runIntake;
 import frc.robot.subsystems.AmperSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -43,6 +46,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import frc.robot.commands.*;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -56,8 +60,10 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final AmperSubsystem m_AmperSubsystem = new AmperSubsystem();
+  private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
+
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_OperatorController = new CommandXboxController(OIConstants.kOperatorControlPort);
   //operator controller 
   Joystick m_OperatorJoystick = new Joystick(OIConstants.kOperatorControlPort);
@@ -65,15 +71,19 @@ public class RobotContainer {
   Command runIntake = new runIntake(m_IntakeSubsystem, 10);
   Command runAmpArm = new runAmpArm(m_AmperSubsystem, m_shooter, m_IntakeSubsystem, false);
   Command runAmpArmProtect = new runAmpArm(m_AmperSubsystem, m_shooter, m_IntakeSubsystem, true);
+
   Command runAmpWheel = new runAmpWheel(m_AmperSubsystem, m_shooter, m_IntakeSubsystem);
+  Command runShooter = new runShooter(m_IntakeSubsystem, m_shooter, true);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Register named commands for PathPlanner
-    NamedCommands.registerCommand("shoot", Commands.print("shoot"));
+    NamedCommands.registerCommand("speaker", Commands.print("speaker"));
     NamedCommands.registerCommand("pickup", Commands.print("pickup note"));
+    NamedCommands.registerCommand("amp", Commands.print("amp"));
+    NamedCommands.registerCommand("load", Commands.print("load"));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -90,9 +100,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
-        //Operator controls 
-         // configure the launcher to stop when no other command is running
-    //m_shooter.setDefaultCommand(new RunCommand(() -> m_shooter.stopShooter(), m_shooter));
+        
     
         
   }     
@@ -107,15 +115,11 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
+    new JoystickButton(m_driverController.getHID(), Button.kR1.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
     
-    //Intake on Right Trigger on Joystick 
-    new JoystickButton(m_OperatorJoystick, 7).onTrue(new InstantCommand(() -> m_IntakeSubsystem.setArm(10)));
-    
-
     //Shoot into AMP with left trigger on Joystick 
     m_OperatorController.button(6).onTrue(runAmpArm);
     m_OperatorController.button(5).onTrue(runAmpArmProtect);
@@ -123,7 +127,14 @@ public class RobotContainer {
 
     //Pick up note off ground (Intake)
     m_OperatorController.button(7).whileTrue(runIntake);
-    
+
+    //Shoot into SPEAKER with left trigger 
+    m_OperatorController.button(8).whileTrue(runShooter);
+
+    m_OperatorController.povUp().onTrue(new InstantCommand(() -> m_ClimberSubsystem.setMotors(47)));
+    m_OperatorController.povDown().onTrue(new InstantCommand(() -> m_ClimberSubsystem.setMotors(1)));
+
+    m_driverController.button(5).onTrue(new InstantCommand(() -> m_robotDrive.fieldRelative()));
   }
 
   /**

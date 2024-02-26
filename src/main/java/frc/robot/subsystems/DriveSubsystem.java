@@ -45,11 +45,13 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
-    private SimSwerveModule[] modules;
+    //private SimSwerveModule[] modules;
 
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS();
+
+  private boolean fieldRelativeButton;
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -73,27 +75,29 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    AutoBuilder.configureHolonomic(
-      this::getPose,
-      this::resetPose,
-      this:getRobotRelativeSpeeds,
-      this:driveRobotRelative,
-      new HolonomicPathFollowerConfig(
-        new PIDConstants(5.0,0.0,0.0),
-        new PIDConstants(5.0,0.0,0.0),
-        4.5,
-        0.4,
-        new ReplanningConfig()
-      ),
-      () -> {
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;
-      },
-      this
-      );
+    // AutoBuilder.configureHolonomic(
+    //   this::getPose,
+    //   this::resetPose,
+    //   this:getRobotRelativeSpeeds,
+    //   this:driveRobotRelative,
+    //   new HolonomicPathFollowerConfig(
+    //     new PIDConstants(5.0,0.0,0.0),
+    //     new PIDConstants(5.0,0.0,0.0),
+    //     4.5,
+    //     0.4,
+    //     new ReplanningConfig()
+    //   ),
+    //   () -> {
+    //     var alliance = DriverStation.getAlliance();
+    //     if (alliance.isPresent()) {
+    //       return alliance.get() == DriverStation.Alliance.Red;
+    //     }
+    //     return false;
+    //   },
+    //   this
+    //   );
+
+      fieldRelativeButton = true;
     }
 
 
@@ -110,6 +114,15 @@ public class DriveSubsystem extends SubsystemBase {
         });
   }
 
+  public void fieldRelative(){
+    if(fieldRelativeButton == true){
+      fieldRelativeButton = false;
+    }
+    else{
+      fieldRelativeButton = true;
+    }
+  }
+
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -119,17 +132,17 @@ public class DriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
-  public void resetPose(Pose2d pose) {
-    m_odometry.resetPosition(m_gyro.getRotation2d(), getPositions(), pose);
-  }
+  // public void resetPose(Pose2d pose) {
+  //   m_odometry.resetPosition(m_gyro.getRotation2d(), getPositions(), pose);
+  // }
 
-  private SwerveModulePosition[] getPositions() {
+  // private SwerveModulePosition[] getPositions() {
     
-    // SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
-    // for (int i = 0; i < modules.length; i++) {
-    //   positions[i] = modules[i].getPosition();
-    // }
-  }
+  //   SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
+  //   for (int i = 0; i < modules.length; i++) {
+  //     positions[i] = modules[i].getPosition();
+  //   }
+  // }
 
 
   /**
@@ -160,7 +173,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
-    
+    fieldRelative = fieldRelativeButton;
+
+
     double xSpeedCommanded;
     double ySpeedCommanded;
 

@@ -3,14 +3,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-//import com.ctre.phoenix.motorcontrol.TalongSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Encoder;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -48,6 +46,10 @@ public class AmperSubsystem extends SubsystemBase {
 
     public void setArm(double pos){
         ampArm.set(TalonSRXControlMode.MotionMagic, pos);
+    }
+
+    public boolean atPos(double pos){
+        return ampArm.getSelectedSensorPosition() >= pos + 20 || ampArm.getSelectedSensorPosition() <= pos - 20; 
     }
 
     @Override

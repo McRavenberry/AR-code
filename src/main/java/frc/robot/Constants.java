@@ -80,8 +80,8 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final int leftShooterMotorId = 6; 
     public static final int rightShooterMotorId = 7; 
-    public static final double kRightPower = 0.80; 
-    public static final double kLeftPower = 0.80;
+    public static final double kSpeakerPower = 0.80; 
+    public static final double kAmpPower = 0.20;
     
    }
    //Class for climber 
@@ -97,6 +97,8 @@ public final class Constants {
         /climberReduction; // meters
     public static final double climbVelocityFacotor = climberReduction*2.0*Math.PI/60;
     public static final double climbFreeSpeed = 5676.0*climbVelocityFacotor;
+    public static final double kHomePosition = 0.0; 
+    public static final double kClimbPosition = 1.5; 
     
         
    }
