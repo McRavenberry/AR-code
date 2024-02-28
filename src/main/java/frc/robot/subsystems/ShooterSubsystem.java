@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
         new CANSparkMax(Constants.ShooterConstants.leftShooterMotorId, CANSparkLowLevel.MotorType.kBrushless);
     m_leftMotor.restoreFactoryDefaults();
 
-    m_leftMotor.setInverted(true);
+    m_leftMotor.setInverted(false);
     m_leftMotor.setSmartCurrentLimit(80);
     m_leftMotor.setIdleMode(IdleMode.kCoast);
 

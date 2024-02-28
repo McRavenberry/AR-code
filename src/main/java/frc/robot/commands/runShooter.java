@@ -27,9 +27,9 @@ public class runShooter extends Command {
   public void execute() {
     
     //s_Shooter.speakerShoot();
-    s_Shooter.runShooter(5600);
+    s_Shooter.runShooter(5200);
 
-    if(s_Shooter.getAtSpeed(5600)){
+    if(s_Shooter.getAtSpeed(5200)){
       s_Intake.setMotor(-1);
     }
 

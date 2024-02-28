@@ -131,7 +131,7 @@ public class RobotContainer {
     //Shoot into SPEAKER with left trigger 
     m_OperatorController.button(8).whileTrue(runShooter);
 
-    m_OperatorController.povUp().onTrue(new InstantCommand(() -> m_ClimberSubsystem.setMotors(47)));
+    m_OperatorController.povUp().onTrue(new InstantCommand(() -> m_ClimberSubsystem.setMotors(110)));
     m_OperatorController.povDown().onTrue(new InstantCommand(() -> m_ClimberSubsystem.setMotors(1)));
 
     m_driverController.button(5).onTrue(new InstantCommand(() -> m_robotDrive.fieldRelative()));

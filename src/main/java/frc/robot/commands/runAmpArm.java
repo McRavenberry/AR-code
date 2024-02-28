@@ -42,7 +42,7 @@ public class runAmpArm extends Command {
       s_Intake.setMotor(0.0);
     }
     else{
-      s_Amper.setArm(6500);
+      s_Amper.setArm(6300);
     }
     
 
