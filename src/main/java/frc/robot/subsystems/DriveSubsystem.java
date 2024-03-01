@@ -16,8 +16,10 @@ import edu.wpi.first.util.WPIUtilJNI;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
-    //private SimSwerveModule[] modules;
+  //private SimSwerveModule[] modules;
 
 
   // The gyro sensor
@@ -75,27 +77,27 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    // AutoBuilder.configureHolonomic(
-    //   this::getPose,
-    //   this::resetPose,
-    //   this:getRobotRelativeSpeeds,
-    //   this:driveRobotRelative,
-    //   new HolonomicPathFollowerConfig(
-    //     new PIDConstants(5.0,0.0,0.0),
-    //     new PIDConstants(5.0,0.0,0.0),
-    //     4.5,
-    //     0.4,
-    //     new ReplanningConfig()
-    //   ),
-    //   () -> {
-    //     var alliance = DriverStation.getAlliance();
-    //     if (alliance.isPresent()) {
-    //       return alliance.get() == DriverStation.Alliance.Red;
-    //     }
-    //     return false;
-    //   },
-    //   this
-    //   );
+    AutoBuilder.configureHolonomic(
+    this::getPose,
+    this::resetOdometry,
+    this::getSpeeds,
+    (speeds) -> setModuleStates(Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds)),
+    new HolonomicPathFollowerConfig(
+      new PIDConstants(5.0,0.0,0.0),
+      new PIDConstants(5.0,0.0,0.0),
+      4.5,
+      0.4,
+      new ReplanningConfig()
+    ),
+    () -> {
+      var alliance = DriverStation.getAlliance();
+      if (alliance.isPresent()) {
+        return alliance.get() == DriverStation.Alliance.Red;
+      }
+      return false;
+    },
+    this
+    );
 
       fieldRelativeButton = true;
     }
@@ -112,6 +114,10 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+  }
+
+  public ChassisSpeeds getSpeeds(){
+    return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getState());
   }
 
   public void fieldRelative(){
@@ -132,17 +138,15 @@ public class DriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
-  // public void resetPose(Pose2d pose) {
-  //   m_odometry.resetPosition(m_gyro.getRotation2d(), getPositions(), pose);
-  // }
-
-  // private SwerveModulePosition[] getPositions() {
-    
-  //   SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
-  //   for (int i = 0; i < modules.length; i++) {
-  //     positions[i] = modules[i].getPosition();
-  //   }
-  // }
+  private SwerveModuleState[] getState() {
+  SwerveModuleState[] states = new SwerveModuleState[] {
+          m_frontLeft.getState(),
+          m_frontRight.getState(),
+          m_rearLeft.getState(),
+          m_rearRight.getState()
+  };
+  return states;
+  }
 
 
   /**

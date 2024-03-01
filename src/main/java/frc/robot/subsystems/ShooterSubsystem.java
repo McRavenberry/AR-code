@@ -20,9 +20,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private RelativeEncoder encoder, encoder1;
   private SparkPIDController controller, controller1;
-
-  private boolean m_speakerShootRunning;
-  private boolean m_ampShootRunning;
   
 
   /** Creates a new LauncherSubsystem. */
@@ -69,8 +66,7 @@ public class ShooterSubsystem extends SubsystemBase {
     controller1.setD(0);
     controller1.setFF(0.05);
 
-    m_speakerShootRunning = false;
-    m_ampShootRunning = false;
+    
     
   }
 
@@ -79,13 +75,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
  
-  public void speakerShoot() {
-    m_speakerShootRunning = true;
-  }
-
-  public void ampShoot() {
-    m_ampShootRunning = true;
-  }
+ 
 
   public void stopShooter() {
     m_leftMotor.stopMotor();
