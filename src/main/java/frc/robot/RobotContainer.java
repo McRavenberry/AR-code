@@ -59,9 +59,10 @@ public class RobotContainer {
   private final AmperSubsystem m_AmperSubsystem = new AmperSubsystem();
   private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
 
-  // The driver's controller
+  // Sets up the driver and operator controllers
   CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_OperatorController = new CommandXboxController(OIConstants.kOperatorControlPort);
+
   //operator controller 
   Joystick m_OperatorJoystick = new Joystick(OIConstants.kOperatorControlPort);
 
@@ -72,6 +73,7 @@ public class RobotContainer {
   Command runAmpWheel = new runAmpWheel(m_AmperSubsystem, m_shooter, m_IntakeSubsystem);
   Command runShooter = new runShooter(m_IntakeSubsystem, m_shooter, true);
 
+  // Makes sendablechooser for autonomous routines
   SendableChooser<Command> auto;
 
   /**
@@ -86,6 +88,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("shoot", runShooter);
     NamedCommands.registerCommand("intake", runIntake);
 
+    // Sets up AutoBuilder from PathPlanner and displays auto choices onto SmartDashboard
     auto = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Choose", auto);
 
@@ -123,7 +126,7 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-    
+
     //Shoot into AMP with left trigger on Joystick 
     m_OperatorController.button(6).onTrue(runAmpArm);
     m_OperatorController.button(5).onTrue(runAmpArmProtect);
@@ -135,9 +138,11 @@ public class RobotContainer {
     //Shoot into SPEAKER with left trigger 
     m_OperatorController.button(8).whileTrue(runShooter);
 
+    //Upper and Lower positions for climber
     m_OperatorController.povUp().onTrue(new InstantCommand(() -> m_ClimberSubsystem.setMotors(110)));
     m_OperatorController.povDown().onTrue(new InstantCommand(() -> m_ClimberSubsystem.setMotors(1)));
 
+    //Button 5 on driver controller toggles between field centric and robot centric driving
     m_driverController.button(5).onTrue(new InstantCommand(() -> m_robotDrive.fieldRelative()));
   }
 
