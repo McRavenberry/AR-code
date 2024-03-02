@@ -3,36 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.65,
-        "y": 5.55
+        "x": 0.9,
+        "y": 4.2
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.75,
-        "y": 5.55
+        "x": 0.9,
+        "y": 4.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5,
-        "y": 5.55
+        "x": 2.4,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 2.4,
-        "y": 5.55
+        "x": 2.3,
+        "y": 4.1
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "intake",
       "waypointRelativePos": 0.25,
       "command": {
         "type": "parallel",
@@ -61,9 +67,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "three-four",
+  "folder": "source",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

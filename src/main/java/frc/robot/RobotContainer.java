@@ -79,11 +79,12 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Register named commands for PathPlanner
-    NamedCommands.registerCommand("speaker", Commands.print("speaker"));
-    NamedCommands.registerCommand("pickup", Commands.print("pickup note"));
-    NamedCommands.registerCommand("amp", Commands.print("amp"));
-    NamedCommands.registerCommand("load", Commands.print("load"));
+    // NamedCommands.registerCommand("speaker", Commands.print("speaker"));
+    // NamedCommands.registerCommand("pickup", Commands.print("pickup note"));
+    // NamedCommands.registerCommand("amp", Commands.print("amp"));
+    // NamedCommands.registerCommand("load", Commands.print("load"));
     NamedCommands.registerCommand("shoot", runShooter);
+    NamedCommands.registerCommand("intake", runIntake);
 
     auto = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Choose", auto);

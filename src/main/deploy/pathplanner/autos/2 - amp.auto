@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0,
+      "x": 0.9,
       "y": 6.874261052373746
     },
     "rotation": 60.0
@@ -34,16 +34,10 @@
           "data": {
             "name": "shoot"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "amp4"
-          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "two",
   "choreoAuto": false
 }
