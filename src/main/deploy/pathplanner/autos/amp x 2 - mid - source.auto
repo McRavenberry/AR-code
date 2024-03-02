@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0095378821285446,
+      "x": 1.0,
       "y": 6.874261052373746
     },
-    "rotation": 55.88552705465871
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "amp"
+            "pathName": "amp1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "amp2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "amp4"
           }
         }
       ]
