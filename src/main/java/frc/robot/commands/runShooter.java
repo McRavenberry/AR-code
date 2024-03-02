@@ -28,6 +28,7 @@ public class runShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // For autonomous to start timer to shut off shooter
     timer.reset();
     timer.start();
     autoDone = false;
@@ -44,7 +45,9 @@ public class runShooter extends Command {
       s_Intake.setMotor(-1);
     }
 
-    if(DriverStation.isAutonomous() == true && timer.get() > 2){
+    // Triggers the shooter motors to stop after 'time' seconds
+    double time = 2.0;
+    if(DriverStation.isAutonomous() == true && timer.get() > time){
       autoDone = true;
     }
 
@@ -53,6 +56,7 @@ public class runShooter extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Turns shooter motors off
     s_Shooter.stopShooter();
     s_Intake.setMotor(0.0);
   }
@@ -60,6 +64,7 @@ public class runShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Turns off shooter motor when autonomous shooting is complete
     if(DriverStation.isAutonomous()){
       return autoDone;
     }
