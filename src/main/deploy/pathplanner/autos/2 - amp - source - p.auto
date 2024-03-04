@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.9,
-      "y": 4.2
+      "y": 6.874261052373746
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -18,15 +18,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "source1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "amp1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "source2"
+            "pathName": "amp2"
           }
         },
         {
@@ -38,7 +51,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "source3"
+            "pathName": "amp4"
           }
         }
       ]

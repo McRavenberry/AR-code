@@ -18,9 +18,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "amp1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "amp1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
           }
         },
         {
@@ -38,7 +51,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "amp4"
+            "pathName": "amp3"
           }
         }
       ]

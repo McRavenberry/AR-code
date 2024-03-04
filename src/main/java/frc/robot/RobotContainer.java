@@ -6,7 +6,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,9 +17,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.runAmpArm;
-import frc.robot.commands.runAmpWheel;
-import frc.robot.commands.runIntake;
 import frc.robot.subsystems.AmperSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -72,6 +71,7 @@ public class RobotContainer {
 
   Command runAmpWheel = new runAmpWheel(m_AmperSubsystem, m_shooter, m_IntakeSubsystem);
   Command runShooter = new runShooter(m_IntakeSubsystem, m_shooter, true);
+
 
   // Makes sendablechooser for autonomous routines
   SendableChooser<Command> auto;
@@ -144,6 +144,7 @@ public class RobotContainer {
 
     //Button 5 on driver controller toggles between field centric and robot centric driving
     m_driverController.button(5).onTrue(new InstantCommand(() -> m_robotDrive.fieldRelative()));
+
   }
 
   /**
