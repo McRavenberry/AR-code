@@ -37,16 +37,18 @@ public class runShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    System.out.println("Shooter command");
     
     //s_Shooter.speakerShoot();
-    s_Shooter.runShooter(5200);
+    s_Shooter.runShooter(4500);
 
-    if(s_Shooter.getAtSpeed(5200)){
+    if(s_Shooter.getAtSpeed(4500)){
       s_Intake.setMotor(-1);
     }
 
     // Triggers the shooter motors to stop after 'time' seconds
-    double time = 2.0;
+    double time = 1;
     if(DriverStation.isAutonomous() == true && timer.get() > time){
       autoDone = true;
     }

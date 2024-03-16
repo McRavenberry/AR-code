@@ -4,27 +4,20 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AmperSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-
-public class runAmpArm extends Command {
-  /** Creates a new ArmScore. */
-  private AmperSubsystem s_Amper;
-  private ShooterSubsystem s_Shooter;
+public class intakeOut extends Command {
   private IntakeSubsystem s_Intake;
-  private Boolean protect = false;
-
-  public runAmpArm(AmperSubsystem s_Amper, ShooterSubsystem s_Shooter,IntakeSubsystem s_Intake, Boolean protect) {
-    this.s_Amper = s_Amper;
-    this.s_Shooter = s_Shooter;
+  private double pos;
+  /** Creates a new IntakeOut. */
+  public intakeOut(IntakeSubsystem s_Intake, double pos) {
     this.s_Intake = s_Intake;
-    this.protect = protect;
+    this.pos = pos;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_Amper);
+    addRequirements(s_Intake);
   }
 
   // Called when the command is initially scheduled.
@@ -34,25 +27,18 @@ public class runAmpArm extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if(protect){
-      s_Amper.setArm(0);
-      s_Amper.setSpeed(0.0);
-      s_Shooter.stopShooter();
-      s_Intake.setMotor(0.0);
+    s_Intake.setArm(60);
+    if (s_Intake.getArm()>=59){
+      s_Intake.setMotor(-0.9);
     }
-    else{
-      s_Amper.setArm(6100);
-    }
-    
-
-    System.out.println("RUN AMP ARM OUT");
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    s_Intake.setArm(0);
+    s_Intake.setMotor(0);
   }
 
   // Returns true when the command should end.

@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.9,
-      "y": 6.874261052373746
+      "y": 4.2
     },
-    "rotation": 60.0
+    "rotation": 119.20444729522073
   },
   "command": {
     "type": "sequential",
@@ -22,15 +22,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "amp1"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Mid Field 1"
                 }
               }
             ]
@@ -39,13 +39,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "amp2"
+            "pathName": "Mid Field 2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "shootEnd"
+            "name": "shoot"
           }
         }
       ]

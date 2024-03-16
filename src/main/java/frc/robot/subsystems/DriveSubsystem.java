@@ -84,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
     (speeds) -> setModuleStates(Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds)),
     new HolonomicPathFollowerConfig(
       new PIDConstants(5.0,0.0,0.0),
-      new PIDConstants(5.0,0.0,0.0),
+      new PIDConstants(1.75,0.0,0.0),
       4.5,
       0.4,
       new ReplanningConfig()

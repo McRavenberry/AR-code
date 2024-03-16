@@ -66,12 +66,12 @@ public class RobotContainer {
   Joystick m_OperatorJoystick = new Joystick(OIConstants.kOperatorControlPort);
 
   Command runIntake = new runIntake(m_IntakeSubsystem, 10);
+  Command intakeOut = new intakeOut(m_IntakeSubsystem, 60);
   Command runAmpArm = new runAmpArm(m_AmperSubsystem, m_shooter, m_IntakeSubsystem, false);
   Command runAmpArmProtect = new runAmpArm(m_AmperSubsystem, m_shooter, m_IntakeSubsystem, true);
-
   Command runAmpWheel = new runAmpWheel(m_AmperSubsystem, m_shooter, m_IntakeSubsystem);
   Command runShooter = new runShooter(m_IntakeSubsystem, m_shooter, true);
-
+  Command AutoCommand = new AutoShoot(m_IntakeSubsystem, m_shooter, null, 0);
 
   // Makes sendablechooser for autonomous routines
   SendableChooser<Command> auto;
@@ -85,8 +85,10 @@ public class RobotContainer {
     // NamedCommands.registerCommand("pickup", Commands.print("pickup note"));
     // NamedCommands.registerCommand("amp", Commands.print("amp"));
     // NamedCommands.registerCommand("load", Commands.print("load"));
-    NamedCommands.registerCommand("shoot", runShooter);
+    NamedCommands.registerCommand("shoot", AutoCommand);
     NamedCommands.registerCommand("intake", runIntake);
+    NamedCommands.registerCommand("shootEnd", runShooter);
+    NamedCommands.registerCommand("deployIntake", new deployIntake(m_IntakeSubsystem));
 
     // Sets up AutoBuilder from PathPlanner and displays auto choices onto SmartDashboard
     auto = AutoBuilder.buildAutoChooser();
@@ -135,6 +137,10 @@ public class RobotContainer {
     //Pick up note off ground (Intake)
     m_OperatorController.button(7).whileTrue(runIntake);
 
+  
+    //Spit out note (Intake)
+    m_OperatorController.button(2).whileTrue(intakeOut);
+
     //Shoot into SPEAKER with left trigger 
     m_OperatorController.button(8).whileTrue(runShooter);
 
@@ -144,6 +150,7 @@ public class RobotContainer {
 
     //Button 5 on driver controller toggles between field centric and robot centric driving
     m_driverController.button(5).onTrue(new InstantCommand(() -> m_robotDrive.fieldRelative()));
+    m_driverController.button(4).onTrue(new InstantCommand(()-> m_robotDrive.zeroHeading()));
 
   }
 

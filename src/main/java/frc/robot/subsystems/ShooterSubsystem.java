@@ -48,34 +48,28 @@ public class ShooterSubsystem extends SubsystemBase {
     controller = m_leftMotor.getPIDController();
     controller.setFeedbackDevice(encoder);
     controller.setOutputRange(-1, 1);
-    controller.setSmartMotionMaxVelocity(6000, 0);
-    controller.setSmartMotionMaxAccel(6000, 0);
+    controller.setSmartMotionMaxVelocity(1000, 0);
+    controller.setSmartMotionMaxAccel(500, 0);
     controller.setP(0);
     controller.setI(0);
     controller.setD(0);
-    controller.setFF(0.05);
+    controller.setFF(0.0002);
 
     encoder1 = m_rightMotor.getEncoder();
     controller1 = m_rightMotor.getPIDController();
     controller1.setFeedbackDevice(encoder1);
     controller1.setOutputRange(-1, 1);
-    controller1.setSmartMotionMaxVelocity(6000, 0);
-    controller1.setSmartMotionMaxAccel(6000, 0);
+    controller1.setSmartMotionMaxVelocity(1000, 0);
+    controller1.setSmartMotionMaxAccel(500, 0);
     controller1.setP(0);
     controller1.setI(0);
     controller1.setD(0);
-    controller1.setFF(0.05);
-
-    
-    
+    controller1.setFF(0.0002);  
   }
 
   public boolean getAtSpeed(double speed){
-    return encoder.getVelocity() >= speed+100 || encoder.getVelocity() >= speed-100;
+    return encoder.getVelocity() >= speed+200 || encoder.getVelocity() >= speed-100;
   }
-
- 
- 
 
   public void stopShooter() {
     m_leftMotor.stopMotor();
@@ -86,7 +80,12 @@ public class ShooterSubsystem extends SubsystemBase {
     controller.setReference(speed, ControlType.kVelocity);
     controller1.setReference(speed, ControlType.kVelocity);
     //m_rightMotor.set(.4);
-    System.out.println("in run shooter method");
+    System.out.println("in run shooter method" + speed);
+  }
+  
+  public void runAmpShooter(){
+    m_leftMotor.set(0.25);
+    m_rightMotor.set(0.25);
   }
 
   @Override
@@ -105,6 +104,7 @@ public class ShooterSubsystem extends SubsystemBase {
       m_rightMotor.set(0.0);
     }*/
 
-    SmartDashboard.putNumber("RPM", encoder1.getVelocity());
+    SmartDashboard.putNumber("RPM 1", encoder1.getVelocity());
+    SmartDashboard.putNumber("RPM", encoder.getVelocity());
   }
 }

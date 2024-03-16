@@ -33,9 +33,11 @@ public class runAmpWheel extends Command {
   @Override
   public void execute() {
 
+    System.out.println("Wheel");
+
     if(s_Amper.atPos(6500)){
       s_Amper.setSpeed(0.9);
-      s_Shooter.runShooter(500);
+      s_Shooter.runAmpShooter();
 
       if(s_Shooter.getAtSpeed(0.2)){
         s_Intake.setMotor(-0.9);

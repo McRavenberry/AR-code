@@ -55,9 +55,23 @@ public class IntakeSubsystem extends SubsystemBase{
         intakeArm.setControl(positionVoltage.withPosition(pos));
         //intakeArm.set(0.1);
     }
+    public void setIntake()
+    {
+        setMotor(0.9);
+        setArm(82);
+    }
+
+    public double getArm(){
+        return intakeArm.getPosition().getValueAsDouble();
+    }
   
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Intake Arm Encoder: ", intakeArm.getPosition().getValueAsDouble()); ///84 intake
+    }
+
+    public int getPosition() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
     }
 }

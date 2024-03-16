@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "deployIntake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -113,7 +119,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot"
+            "name": "shootEnd"
           }
         }
       ]

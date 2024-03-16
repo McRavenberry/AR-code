@@ -5,59 +5,56 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AmperSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 
-
-public class runAmpArm extends Command {
-  /** Creates a new ArmScore. */
-  private AmperSubsystem s_Amper;
-  private ShooterSubsystem s_Shooter;
+public class deployIntake extends Command {
   private IntakeSubsystem s_Intake;
-  private Boolean protect = false;
+  private boolean autoDone;
 
-  public runAmpArm(AmperSubsystem s_Amper, ShooterSubsystem s_Shooter,IntakeSubsystem s_Intake, Boolean protect) {
-    this.s_Amper = s_Amper;
-    this.s_Shooter = s_Shooter;
+  /** Creates a new runIntake. */
+  public deployIntake(IntakeSubsystem s_Intake) {
     this.s_Intake = s_Intake;
-    this.protect = protect;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_Amper);
+    addRequirements(s_Intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    // Starts timer for the autonomous intake
+    autoDone = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    s_Intake.setArm(83);
 
-    if(protect){
-      s_Amper.setArm(0);
-      s_Amper.setSpeed(0.0);
-      s_Shooter.stopShooter();
-      s_Intake.setMotor(0.0);
+    // Triggers the intake sequence to end after 'time' seconds
+    if(s_Intake.getArm() > 80){
+      autoDone = true;
     }
-    else{
-      s_Amper.setArm(6100);
-    }
-    
-
-    System.out.println("RUN AMP ARM OUT");
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Resets the intake arm position and turns the motor off
+     s_Intake.setArm(0);
+     s_Intake.setMotor(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // turns off intake when autonomous is complete
+    if(DriverStation.isAutonomous()){
+      return autoDone;
+    }
+    else{
     return false;
+    }
   }
 }
