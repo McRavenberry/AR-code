@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.OIConstants;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+
 
  
 /**
@@ -38,7 +41,7 @@ public class Robot extends TimedRobot {
    final double GOAL_RANGE_METERS = Units.feetToMeters(3);
 
     // Change this to match the name of your camera
-   // PhotonCamera camera = new PhotonCamera("photonvision");
+   PhotonCamera camera = new PhotonCamera("photonvision");
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
