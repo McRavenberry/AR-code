@@ -4,11 +4,12 @@
   "holonomicMode": true,
   "pathFolders": [
     "Mid Field",
+    "three-mid",
     "amp",
+    "four",
     "mid",
     "misc",
-    "source",
-    "three-four"
+    "source"
   ],
   "autoFolders": [
     "four",

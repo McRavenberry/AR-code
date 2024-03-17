@@ -46,10 +46,10 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 50.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "three-four",
+  "folder": "four",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
