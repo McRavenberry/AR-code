@@ -43,6 +43,7 @@ import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import frc.robot.commands.*;
+import static java.lang.Math.pow;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -94,11 +95,18 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     
+    // To allow for more precise control at low speeds
+    // First try adjusting slew rates in Constants, lines 41-43
+    // 
+    // double xSpeedCubed = pow(m_driverController.getLeftY(),3); 
+    // double ySpeedCubed = pow(m_driverController.getLeftX(),3);
+    // double rSpeedCubed = pow(m_driverController.getRightX(),3);
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
+        // .applyDeadband(xSpeed,ySpeed,rot,fieldRelative,rateLimit)
         new RunCommand(
             () -> m_robotDrive.drive(
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
@@ -121,6 +129,8 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    //Sets the robots wheels into X pattern
     new JoystickButton(m_driverController.getHID(), Button.kR1.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),

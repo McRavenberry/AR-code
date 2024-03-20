@@ -41,7 +41,7 @@ public class runIntake extends Command {
     s_Intake.setArm(83);
 
     // Triggers the intake sequence to end after 'time' seconds
-    double time = 1.25;
+    double time = 1.4;
     if(DriverStation.isAutonomous() == true && timer.get() > time){
       autoDone = true;
     }

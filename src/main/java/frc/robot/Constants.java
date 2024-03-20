@@ -35,12 +35,13 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 4.8;
+    public static final double kMaxSpeedMetersPerSecond = 4.5; // 4.8
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 1.2; // radians per second
-    public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    // Lower slew rates mean slower, more precise control; higher slew rates mean faster response
+    public static final double kDirectionSlewRate = 1.2; // radians per second / 1.2
+    public static final double kMagnitudeSlewRate = 1.5; // percent per second (1 = 100%) / 1.8
+    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%) / 2.0
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(24.5);
@@ -162,7 +163,7 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.1;
+    public static final double kDriveDeadband = 0.05;
     public static final int kOperatorControlPort = 1; 
   }
 

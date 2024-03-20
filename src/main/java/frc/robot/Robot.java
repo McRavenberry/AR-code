@@ -43,6 +43,9 @@ public class Robot extends TimedRobot {
 
     // Change this to match the name of your camera
    PhotonCamera camera = new PhotonCamera("photonvision");
+
+    // Query the latest result from PhotonVision
+    result = camera.getLatestResult();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
