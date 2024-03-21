@@ -36,13 +36,13 @@ public class runAmpArm extends Command {
   public void execute() {
 
     if(protect){
-      s_Amper.setArm(0);
+      s_Amper.setArm(150);
       s_Amper.setSpeed(0.0);
       s_Shooter.stopShooter();
       s_Intake.setMotor(0.0);
     }
     else{
-      s_Amper.setArm(6100);
+      s_Amper.setArm(5700);
     }
     
 

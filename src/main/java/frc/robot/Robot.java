@@ -32,20 +32,6 @@ public class Robot extends TimedRobot {
   public RobotContainer m_robotContainer;
 
 
-   // Constants such as camera and target height stored. Change per robot and goal!
-   final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(24);
-   final double TARGET_HEIGHT_METERS = Units.feetToMeters(5);
-   // Angle between horizontal and the camera.
-   final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
-
-   // How far from the target we want to be
-   final double GOAL_RANGE_METERS = Units.feetToMeters(3);
-
-    // Change this to match the name of your camera
-   PhotonCamera camera = new PhotonCamera("photonvision");
-
-    // Query the latest result from PhotonVision
-    result = camera.getLatestResult();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.

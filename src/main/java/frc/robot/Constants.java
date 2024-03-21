@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,6 +19,11 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Measure;
+import static edu.wpi.first.math.util.Units.degreesToRadians;
+import static edu.wpi.first.math.util.Units.inchesToMeters;
+import static edu.wpi.first.units.Units.Meters;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -32,6 +38,9 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+
+  
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
@@ -93,6 +102,34 @@ public final class Constants {
     public static final double kAmpPower = 0.20;
     
    }
+   // class for vision
+   public static class VisionConstants {
+
+    /**
+     * Array of PhotonVision camera names. The values here match ROBOT_TO_CAMERA_TRANSFORMS for the camera's location.
+    */
+    public static final String[] APRILTAG_CAMERA_NAMES = {"VisionCamera"};
+
+    /**
+     * Physical location of the apriltag cameras on the robot, relative to the center of the robot.
+     * The values here math APRILTAG_CAMERA_NAMES for the camera's name.
+     */
+    public static final Transform3d[] ROBOT_TO_CAMERA_TRANSFORMS = {
+        new Transform3d(
+            new Translation3d(inchesToMeters(14), inchesToMeters(-14), inchesToMeters(20.25)),
+            new Rotation3d(0, degreesToRadians(-43), degreesToRadians(0))),
+      };
+
+    public static final Measure<Distance> FIELD_LENGTH = Meters.of(16.54175);
+    public static final Measure<Distance> FIELD_WIDTH = Meters.of(8.0137);
+
+    /**
+     * Minimum target ambiguity. Targets with higher ambiguity will be discarded. Not appliable when multiple tags are
+     * in view in a single camera.
+     */
+    public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.2;
+
+  }
    //Class for climber 
   public static final class ClimberConstants {
     public static final int climberMotorId = 8; 

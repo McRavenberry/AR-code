@@ -35,7 +35,7 @@ public class runAmpWheel extends Command {
 
     System.out.println("Wheel");
 
-    if(s_Amper.atPos(6500)){
+    if(s_Amper.atPos(5700)){
       s_Amper.setSpeed(0.9);
       s_Shooter.runAmpShooter();
 
