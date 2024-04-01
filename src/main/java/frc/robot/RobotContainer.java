@@ -58,7 +58,6 @@ public class RobotContainer {
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final AmperSubsystem m_AmperSubsystem = new AmperSubsystem();
   private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
-
   // Sets up the driver and operator controllers
   CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_OperatorController = new CommandXboxController(OIConstants.kOperatorControlPort);
@@ -73,7 +72,7 @@ public class RobotContainer {
   Command runAmpWheel = new runAmpWheel(m_AmperSubsystem, m_shooter, m_IntakeSubsystem);
   Command runShooter = new runShooter(m_IntakeSubsystem, m_shooter, true);
   Command AutoCommand = new AutoShoot(m_IntakeSubsystem, m_shooter, null, 0);
-
+  Command align = new Align(m_robotDrive, m_OperatorController);
   // Makes sendablechooser for autonomous routines
   SendableChooser<Command> auto;
 
@@ -158,6 +157,9 @@ public class RobotContainer {
     //Button 5 on driver controller toggles between field centric and robot centric driving
     m_driverController.button(5).onTrue(new InstantCommand(() -> m_robotDrive.fieldRelative()));
     m_driverController.button(4).onTrue(new InstantCommand(()-> m_robotDrive.zeroHeading()));
+
+    m_driverController.button(2).whileTrue(align);
+   
 
   }
 

@@ -87,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
       new PIDConstants(1.75,0.0,0.0),
       4.5,
       0.4,
-      new ReplanningConfig()
+      new ReplanningConfig(false, false)
     ),
     () -> {
       var alliance = DriverStation.getAlliance();
