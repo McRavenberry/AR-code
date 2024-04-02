@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.9,
-      "y": 4.2
+      "x": 0.73,
+      "y": 4.43
     },
     "rotation": -60.0
   },
@@ -11,6 +11,12 @@
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "source0"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -20,7 +26,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 9.0
+            "waitTime": 8.0
           }
         },
         {
